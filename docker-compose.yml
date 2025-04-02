@@ -1,1 +1,23 @@
+version: '3.8'
 
+services:
+  # Node.js service
+  node:
+    build:
+      context: ./node-server   # Path to the Node.js app directory
+    ports:
+      - "3000:3000"            # Expose the app on port 3000
+    depends_on:
+      - mongo                  # Ensure MongoDB is started before Node.js
+
+  # MongoDB service
+  mongo:
+    image: mongo:latest        # Use the latest official MongoDB image
+    volumes:
+      - mongodb_data:/data/db  # Persist MongoDB data in a Docker volume
+    ports:
+      - "27017:27017"          # Expose MongoDB on port 27017
+
+# Volumes for MongoDB data persistence
+volumes:
+  mongodb_data:
